@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { fetchQuestions, submitAnswers, saveSession } from '../utils/api';
+import { CorrectIcon, WrongIcon } from '../components/Icons';
 
 const subjectNames = {
   kokugo: 'こくご', sansu: 'さんすう', rika: 'りか', shakai: 'しゃかい', eigo: 'えいご'
@@ -31,14 +32,14 @@ export default function Quiz() {
   }
 
   const current = questions[currentIndex];
-  const isCorrect = selected === current?.answer;
+  const isCorrect = selected?.trim() === current?.answer?.trim();
 
   function handleSelect(choice) {
     if (showFeedback) return;
     setSelected(choice);
     setShowFeedback(true);
 
-    const correct = choice === current.answer;
+    const correct = choice.trim() === current.answer.trim();
     setResults(prev => [...prev, {
       questionId: current.id,
       subject: current.subject,
@@ -133,7 +134,7 @@ export default function Quiz() {
               {results.map((r, i) => (
                 <div key={i} className="result-item">
                   <span className="result-item-icon">
-                    {r.isCorrect ? '⭕' : '❌'}
+                    {r.isCorrect ? <CorrectIcon size={22} /> : <WrongIcon size={22} />}
                   </span>
                   <div>
                     <div style={{ fontWeight: 600, marginBottom: 2 }}>{r.question}</div>
@@ -211,7 +212,7 @@ export default function Quiz() {
         {showFeedback && (
           <div className={`feedback ${isCorrect ? 'correct' : 'wrong'}`}>
             <div className="feedback-title">
-              {isCorrect ? '⭕ せいかい！' : '❌ ざんねん…'}
+              {isCorrect ? 'せいかい！' : 'ざんねん…'}
             </div>
             <div className="feedback-text">{current.explanation}</div>
           </div>

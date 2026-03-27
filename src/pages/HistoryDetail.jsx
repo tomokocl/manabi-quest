@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { getSession } from '../utils/api';
+import { CorrectIcon, WrongIcon } from '../components/Icons';
 
 const subjectNames = {
   kokugo: '国語', sansu: '算数', rika: '理科', shakai: '社会', eigo: '英語'
@@ -56,7 +57,7 @@ export default function HistoryDetail() {
             {session.details.map((r, i) => (
               <div key={i} className="result-item">
                 <span className="result-item-icon">
-                  {r.isCorrect ? '⭕' : '❌'}
+                  {r.isCorrect ? <CorrectIcon size={22} /> : <WrongIcon size={22} />}
                 </span>
                 <div>
                   <div style={{ fontWeight: 600, marginBottom: 2 }}>{r.question}</div>

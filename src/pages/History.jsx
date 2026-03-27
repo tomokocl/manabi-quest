@@ -3,12 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 import { getSessions } from '../utils/api';
+import { subjectIcons as SubjectIconComponents } from '../components/Icons';
 
 const subjectNames = {
   kokugo: '国語', sansu: '算数', rika: '理科', shakai: '社会', eigo: '英語'
-};
-const subjectIcons = {
-  kokugo: '📖', sansu: '🔢', rika: '🔬', shakai: '🌍', eigo: '🔤'
 };
 
 function formatDate(iso) {
@@ -44,16 +42,19 @@ export default function History() {
           >
             ぜんぶ
           </button>
-          {Object.entries(subjectNames).map(([id, name]) => (
-            <button
-              key={id}
-              className={`choice-btn ${filter === id ? 'selected' : ''}`}
-              style={{ padding: '8px 14px', fontSize: '0.85rem' }}
-              onClick={() => setFilter(id)}
-            >
-              {subjectIcons[id]} {name}
-            </button>
-          ))}
+          {Object.entries(subjectNames).map(([id, name]) => {
+            const Icon = SubjectIconComponents[id];
+            return (
+              <button
+                key={id}
+                className={`choice-btn ${filter === id ? 'selected' : ''}`}
+                style={{ padding: '8px 14px', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: 4 }}
+                onClick={() => setFilter(id)}
+              >
+                <Icon size={18} /> {name}
+              </button>
+            );
+          })}
         </div>
 
         {filtered.length === 0 ? (
@@ -83,8 +84,9 @@ export default function History() {
                       <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
                         {formatDate(session.date)} {formatTime(session.date)}
                       </div>
-                      <div style={{ fontWeight: 700, fontSize: '1.05rem', marginTop: 2 }}>
-                        {subjectIcons[session.subject]} {subjectNames[session.subject]}
+                      <div style={{ fontWeight: 700, fontSize: '1.05rem', marginTop: 2, display: 'flex', alignItems: 'center', gap: 6 }}>
+                        {(() => { const Icon = SubjectIconComponents[session.subject]; return Icon ? <Icon size={22} /> : null; })()}
+                        {subjectNames[session.subject]}
                       </div>
                     </div>
                     <div style={{ textAlign: 'right' }}>

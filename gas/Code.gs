@@ -97,12 +97,12 @@ function getQuestions(subject) {
     if (row[1] === subject) {
       questions.push({
         id: row[0],
-        subject: row[1],
-        unit: row[2],
-        question: row[3],
-        choices: JSON.parse(row[4]),
-        answer: row[5],
-        explanation: row[6]
+        subject: row[1].toString().trim(),
+        unit: row[2].toString().trim(),
+        question: row[3].toString().trim(),
+        choices: JSON.parse(row[4]).map(function(c) { return c.trim(); }),
+        answer: row[5].toString().trim(),
+        explanation: row[6].toString().trim()
       });
     }
   }
