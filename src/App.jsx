@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Quiz from './pages/Quiz';
 import Dashboard from './pages/Dashboard';
@@ -8,7 +8,7 @@ import './styles/theme.css';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/quiz/:subject" element={<Quiz />} />
@@ -16,6 +16,6 @@ export default function App() {
         <Route path="/history" element={<History />} />
         <Route path="/history/:id" element={<HistoryDetail />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
